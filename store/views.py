@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from store.models import Product , Slider
+from store.models import Product , Slider , Category
+from django.core.paginator import Paginator
 def index(request):
     models = Product.objects.select_related('author').filter(featured=True)
     slides = Slider.objects.order_by('order')
@@ -10,7 +11,17 @@ def product(request , pid):
 
 
 def category(request , cid=None):
-    return render(request,'category.html')
+    cat = None
+    where = {}
+    if cid:
+        cat = Category.objects.get(pk=cid)
+        where['Category_id'] = cid
+
+    models = Product.objects.filter(**where)
+    paginator = Paginator(models , 9) #Per page
+    page_number = request.GET.get('page') #Return current page
+    page_obj = paginator.get_page(page_number) #page object used for operations
+    return render(request,'category.html' , {'cat':cat , 'page_obj':page_obj})
 
 def cart(request):
     return render(request , 'cart.html')
