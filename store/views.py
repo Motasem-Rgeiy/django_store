@@ -1,7 +1,9 @@
 from django.shortcuts import render
-
+from store.models import Product , Slider
 def index(request):
-    return  render(request , 'index.html')
+    models = Product.objects.select_related('author').filter(featured=True)
+    slides = Slider.objects.order_by('order')
+    return  render(request , 'index.html' , {'products':models , 'slides':slides})
 
 def product(request , pid):
     return render(request , 'product.html')

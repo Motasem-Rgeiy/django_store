@@ -23,26 +23,15 @@
     <div class="container">
       <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
         <ul class="navbar-nav my-2 my-lg-0">
+          {% for category in categories %}
+
           <li class="nav-item">
-            <a class="nav-link mx-1" href="category/1" role="button">
-              برمجة
+            <a class="nav-link mx-1" href="{% url "store.category" category.id %}" role="button">
+              {{ category.name }}
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category" role="button">
-              تصميم
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category" role="button">
-              ذكاء اصطناعي
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-1" href="category" role="button">
-              العمل الحر
-            </a>
-          </li>
+          {% endfor %}
+    
         </ul>
       </div>
     </div>
