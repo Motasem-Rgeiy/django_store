@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.sessions.models import Session
 
 
 class Category(models.Model):
@@ -56,3 +56,7 @@ class Slider(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.title
+    
+class Cart(models.Model):
+    items = models.JSONField(default=dict) #will stores Products that exist in the cart
+    session = models.ForeignKey(Session , on_delete=models.CASCADE) #When the session is deleted, whole the cart will be deleted
