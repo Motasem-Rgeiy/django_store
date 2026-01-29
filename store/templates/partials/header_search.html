@@ -1,14 +1,14 @@
- <form class="d-flex mx-auto">
+ {% load i18n %}
+ <form class="d-flex mx-auto" action="{% url "store.category" %}">
           <div class="input-group">
-            <input type="text" class="form-control" style="width: 400px" placeholder="بحث عن منتتجات" />
-            <select class="form-control" style="width: 160px">
-              <option>التصنيفات</option>
-              <option>التصنيفات</option>
-              <option>التصنيفات</option>
-              <option>التصنيفات</option>
-              <option>التصنيفات</option>
+            <input type="text" class="form-control" style="width: 400px" placeholder="بحث عن منتتجات" name="query" value="{{request.GET.query}}" />
+            <select class="form-control" style="width: 160px" name='category'>
+              <option>{% trans "All Categories" %}</option>
+                {% for category in categories %}
+                      <option value="{{category.id}}" {% if category.id|stringformat:"i" == request.GET.category %}selected{% endif %}>{{category.name}}</option>
+                {% endfor %}
             </select>
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="submit">
               <i class="lni lni-search-alt text-white"></i>
             </button>
           </div>

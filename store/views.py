@@ -12,16 +12,23 @@ def product(request , pid):
 
 def category(request , cid=None):
     cat = None
+    cid = request.GET.get('cid') #Get the current id of the category
+    query = request.GET.get('query')
     where = {}
     if cid:
         cat = Category.objects.get(pk=cid)
-        where['Category_id'] = cid
+        where['Category_id'] = cid #Get the id of a specific category
 
-    models = Product.objects.filter(**where)
+    if query:
+        where['name__icontains'] = query
+
+    models = Product.objects.filter(**where) #Get all products of a specific category
     paginator = Paginator(models , 9) #Per page
     page_number = request.GET.get('page') #Return current page
     page_obj = paginator.get_page(page_number) #page object used for operations
     return render(request,'category.html' , {'cat':cat , 'page_obj':page_obj})
+
+
 
 def cart(request):
     return render(request , 'cart.html')
