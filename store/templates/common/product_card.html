@@ -4,7 +4,7 @@
               <img src="{{product.image.url}}" class="card-img-top" alt="..." />
               <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
                 <a class="btn btn-outline-light" href="product.html">{% trans "Add to cart" %}</a>
-                <a class="btn btn-outline-light mt-2" href="product.html">{% trans "View" %}</a>
+                <a class="btn btn-outline-light mt-2" href="{% url "store.product" product.id %}">{% trans "View" %}</a>
               </div>
               <div class="card-body">
                 <h6 class="text-muted">{{product.author.name}}</h6>

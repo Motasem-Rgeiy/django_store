@@ -7,7 +7,8 @@ def index(request):
     return  render(request , 'index.html' , {'products':models , 'slides':slides})
 
 def product(request , pid):
-    return render(request , 'product.html')
+    model = Product.objects.get(pk=pid)
+    return render(request , 'product.html' ,{'product':model})
 
 
 def category(request , cid=None):
