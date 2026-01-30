@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.sessions.models import Session
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -24,6 +25,7 @@ class Product(models.Model):
     short_description = models.TextField(null=True)
     description = models.TextField()
     image = models.ImageField() #Must install Pillow library
+    pdf_file = models.FileField(null=True)
     price = models.FloatField()
     featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,6 +34,10 @@ class Product(models.Model):
     author = models.ForeignKey(Author, on_delete=models.SET_NULL , null=True) #When delete the author, its field set to null #review IPAM Project for user field in ipaddress model!
     def __str__(self):
         return self.name
+    
+    @property
+    def pdf_file_url(self):
+        return settings.SITE_URL + self.pdf_file.url
 
 class Order(models.Model):
     customer = models.JSONField(default=dict) #default=empty dictionary {}
@@ -40,6 +46,10 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return str(self.id)
+    
+    @property
+    def customer_name(self):
+        return f"{self.customer['first_name']} {self.customer['last_name']}"
 
 class OrderProduct(models.Model):
         order = models.ForeignKey(Order, on_delete=models.PROTECT)

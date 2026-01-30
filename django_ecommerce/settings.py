@@ -127,7 +127,18 @@ MEDIA_ROOT ='/media/' #Tell django images and files will be stored in this direc
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Looking to send emails in production? Check out our Email API/SMTP product!
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '8953c079e1a8ee'
+EMAIL_HOST_PASSWORD = 'ed5486eab34f8b'
+EMAIL_PORT = '2525'
+
+SITE_URL = 'http://127.0.0.1:8000'

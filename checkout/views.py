@@ -1,7 +1,8 @@
 from django.shortcuts import render , redirect
 from checkout.forms import UserInfoForm
 from store.models import Cart , Product , Order
-
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 def Make_order(request):
     if request.method != 'POST':
@@ -20,17 +21,35 @@ def Make_order(request):
         if total <= 0:
             return redirect('store.checkout')
         
-        order = Order.objects.create(customer=form.cleaned_data  , total = total) #form.cleaned_data = the object
+        order = Order.objects.create(customer=form.cleaned_data  , total = total) #form.cleaned_data = the object(dict)
 
         for product in products:
             order.orderproduct_set.create(
                 Product_id = product.id,
                 price = product.price
             )
+        send_order_email(order , products)
         
         Cart.objects.filter(session=request.session.session_key).delete()
 
         return redirect('store.checkout_complete')
     else:
         return redirect('store.checkout')        
+    
+
+def send_order_email(order , products):
+    msg_html = render_to_string('emails/order.html' , 
+            {
+                'order':order,
+                'products':products
+            }
+            )
+
+    send_mail(
+        subject='Order Completed',
+        html_message=msg_html,
+        message=msg_html,
+        from_email='motasem.example.com',
+        recipient_list=[order.customer['email']],
+    )
 
