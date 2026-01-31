@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.sessions.models import Session
 from django.conf import settings
+from checkout.models import Transaction
 
 
 class Category(models.Model):
@@ -40,10 +41,13 @@ class Product(models.Model):
         return settings.SITE_URL + self.pdf_file.url
 
 class Order(models.Model):
-    customer = models.JSONField(default=dict) #default=empty dictionary {}
-    total = models.FloatField()
+    transaction = models.OneToOneField(Transaction , on_delete=models.PROTECT , null=True) #Each order has one transaction, each transaction belongs to one order
+   # customer = models.JSONField(default=dict) #default=empty dictionary {}
+   # total = models.FloatField()  
+   #We don't have the previous two fields after adding transaction
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return str(self.id)
     

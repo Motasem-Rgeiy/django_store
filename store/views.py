@@ -54,7 +54,7 @@ def cart_add(request , pid):
     if cart_model is None: 
         cart_model = Cart.objects.create(session_id=session_id , items=[pid]) #if the cart has no products, we create a new cart
     
-    elif pid not in cart_model.items:  
+    elif pid not in cart_model.items:   #To check if the id of the product is exist before, to avoid duplicate id of the same product
         cart_model.items.append(pid) #if we have products in the cart, we add it directly
         cart_model.save()
     
