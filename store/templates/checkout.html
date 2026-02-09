@@ -18,7 +18,7 @@
           <h4 class="my-3">{% trans "Your information" %}</h4>
           <div class="card">
             <div class="card-body">
-              <form id="form-user-info" action="{% url "checkout.order"%}" method="POST">
+              <form id="form-user-info">
                 {% csrf_token %}
         
                 <div class="row">
@@ -39,16 +39,14 @@
                   <label for="emailInput" class="form-label">{% trans "Email" %} </label>
                   <input type="email" class="form-control" id="emailInput" name="email" required />
                 </div>
-                <button class="btn btn-primary">
-                  {% trans "Save" %}
-                </button>
+             
               </form>
             </div>
           </div>
                 {% trans "Payment Method" %}
           <div class="row">
             <div class="col-md-6">
-              <div class="card" role="button">
+              <div class="card" role="button" onclick="createPaypalSession()">
                 <div class="card-body text-center">
                       {% trans "Paypal" %}
                   <i class="lni lni-paypal-original fs-1"></i>
@@ -56,7 +54,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="card" role="button">
+              <div class="card" role="button" onclick="createStripeSession()">
                 <div class="card-body text-center">
                   {% trans "Credit Card" %}
                   <i class="lni lni-credit-cards fs-1"></i>

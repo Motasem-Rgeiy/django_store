@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.sessions.models import Session
 from django.conf import settings
 from checkout.models import Transaction
+from django.utils.translation import gettext as _
 
 
 class Category(models.Model):
@@ -12,6 +13,10 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
 
 class Author(models.Model):
     name = models.CharField(max_length=255)
@@ -20,6 +25,10 @@ class Author(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = _('Author')
+        verbose_name_plural = _('Authors')
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -33,8 +42,13 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     Category = models.ForeignKey(Category, on_delete=models.PROTECT) #Prevent delete the category when deleting the product
     author = models.ForeignKey(Author, on_delete=models.SET_NULL , null=True) #When delete the author, its field set to null #review IPAM Project for user field in ipaddress model!
+
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
     
     @property
     def pdf_file_url(self):
@@ -49,7 +63,11 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) #Must be string to avoid type error in the admin page
+    
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
     
     @property
     def customer_name(self):
@@ -68,8 +86,13 @@ class Slider(models.Model):
     order = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name = _('Slider')
+        verbose_name_plural = _('Sliders')
     
 class Cart(models.Model):
     items = models.JSONField(default=dict) #will stores Products that exist in the cart

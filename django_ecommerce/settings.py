@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vj!64eq!&ft=(7uh$prrjv@il339ttpr5yz&$j@ruump)w6+yv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1' , 'localhost']
 
 
 # Application definition
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
     'store',
     'checkout',
+    'reports'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'django_ecommerce.urls'
@@ -107,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ar-sa'
 
 TIME_ZONE = 'UTC'
 
@@ -124,8 +127,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT ='/media/' #Tell django images and files will be stored in this directory
 
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
+STATICFILES_DIRS = [BASE_DIR / 'static'] #To find where static directory is located in the project
+STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles') #combines all files For real production
 
 
 
@@ -141,4 +144,21 @@ EMAIL_HOST_USER = '8953c079e1a8ee'
 EMAIL_HOST_PASSWORD = 'ed5486eab34f8b'
 EMAIL_PORT = '2525'
 
+
 SITE_URL = 'http://127.0.0.1:8000'
+
+from dotenv import load_dotenv
+load_dotenv()
+
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51Sw2OHJXWlyyMvuGr1qnfnCLf7Hjxv1NInFWpPjy0MHuhlDlyiSqLY6XIscVusM0RN4wyDF35qcQkQXIULRxoRPX00QdW2IIJ5'
+
+
+CURRENCY = 'USD'
+
+#To get this secret key, we have to generate it by set up a local listener using stripe
+STRIPE_ENDPOINT_SECRET = 'whsec_0bdbd9ffa3e932501794262dfa59395abeaf2154d54a2a5eae12a7e731af8788' 
+
+PAYPAL_EMAIL = '' #Must be have a real value after create paypal account!
+PAYPAL_TEST = True
